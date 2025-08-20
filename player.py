@@ -48,3 +48,14 @@ class Player():
                     continue
                 else: break
 
+    def change_nested_data(self, dictionary, variable, new_value, indent=''):
+        for key, value in dictionary.items():
+            if isinstance(value, dict):
+                print(key)
+                self.change_nested_data(value, variable, new_value, indent + '   ')
+            else:
+                if key == variable:
+                    value = new_value
+                    dictionary.update({key: value})
+            print(f'{indent}{key}: {value}')
+
