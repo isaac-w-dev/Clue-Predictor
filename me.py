@@ -2,6 +2,7 @@ from player import Player
 
 class Me(Player):
     def __init__(self):
+        self.name = 'Me'
         self.possibilities = {
     'weapon': {
         'knife': False,
@@ -31,7 +32,7 @@ class Me(Player):
         'game_room': False
     }
 }
-        self.chart_cards()        
+        # self.chart_cards()        
 
         print(self.possibilities)
 

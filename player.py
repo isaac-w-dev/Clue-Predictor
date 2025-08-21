@@ -1,5 +1,6 @@
 class Player():
     def __init__(self):
+        self.set_list = []
         self.possibilities = {
     'weapon': {
         'knife': None,
@@ -59,3 +60,10 @@ class Player():
                     dictionary.update({key: value})
             print(f'{indent}{key}: {value}')
 
+    # def check_commonalities(self):
+        
+    #     for set in self.set_list:
+    #         for item in set:
+
+
+    # def append_set(self, set):
