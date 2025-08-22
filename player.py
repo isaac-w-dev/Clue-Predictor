@@ -1,38 +1,16 @@
+from evidence import evidence
+import copy
 class Player():
     def __init__(self):
         self.set_list = []
-        self.possibilities = {
-    'weapon': {
-        'knife': None,
-        'gun': None,
-        'poison': None,
-        'rope': None,
-        'hammer': None,
-        'sword': None
-    },
-    'person': {
-        'ms_scarlet': None,
-        'colonel_mustard': None,
-        'mr_green': None,
-        'prof_plum': None,
-        'mz_peacock': None,
-        'mrs_white': None
-    },
-    'room': {
-        'ballroom': None,
-        'bathroom': None,
-        'billiards_room': None,
-        'conservatory': None,
-        'greenroom': None,
-        'bedroom': None,
-        'garden': None,
-        'disco_room': None,
-        'game_room': None
-    }
-}
-    def set_variable_attributes(self):
+        self.possibilities = copy.deepcopy(evidence)
+        print("Player clues", self.possibilities)
+
+    def get_num_cards(self, num_players):
+        if 18 % num_players == 0:
+            self.num_of_cards = int(18 / num_players)
+            return
         while True:
-            self.name = input('Enter name of player here: ')
             try:
                 self.num_of_cards = int(input('Enter number of cards player has: '))
                 if self.num_of_cards > 6: 
@@ -43,11 +21,22 @@ class Player():
                     continue
             except:
                 continue
-            else:
-                print(f'''Name: {self.name}\nNumber of cards: {self.num_of_cards}\nIs this correct? Y/N: ''')
-                if input().upper() == 'N':
-                    continue
-                else: break
+
+    def confirm_information(self):
+        print(f'''Name: {self.name}\nNumber of cards: {self.num_of_cards}\nIs this correct? Y/N: ''')
+        if input().upper() == 'N': return False
+        else:
+            return True
+
+    def set_variable_attributes(self, num_players):
+        while True:
+            self.name = input('Enter name of player here: ')
+            self.get_num_cards(num_players)
+
+            if self.confirm_information() == True:
+                print('Player confirmed!')    
+                break
+            print('Confirmation failed. Enter the corrected data.')
 
     def change_nested_data(self, dictionary, variable, new_value, indent=''):
         for key, value in dictionary.items():
@@ -60,10 +49,26 @@ class Player():
                     dictionary.update({key: value})
             print(f'{indent}{key}: {value}')
 
-    # def check_commonalities(self):
-        
-    #     for set in self.set_list:
-    #         for item in set:
+    def check_nested_data(self, dictionary, variable):
+        for key, value in dictionary.items():
+            if isinstance(value, dict):
+                print(key)
+                self.check_nested_data(value, variable)
+            else:
+                if key == variable:
+                    if value[:8] == 'Possible' or value == None:
+                        return True
+        return False
+
+    def check_commonalities(self):
+        freq_dict = {}
+        for set in self.set_list:
+            for item in set:
+                if item in freq_dict: freq_dict.update({item: freq_dict[item] + 1})
+                freq_dict.update({item:1})
 
 
-    # def append_set(self, set):
+    def append_set(self, set):
+        self.set_list.append(set)
+
+array = [['ms_scarlet', 'green_room', 'knife'],['ms_scarlet', 'conservatory', 'knife'], ['ms_scarlet', 'green_room', 'poison']]

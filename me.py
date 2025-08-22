@@ -1,41 +1,16 @@
 from player import Player
+from evidence import evidence
+import copy
 
 class Me(Player):
     def __init__(self):
         self.name = 'Me'
-        self.possibilities = {
-    'weapon': {
-        'knife': False,
-        'gun': False,
-        'poison': False,
-        'rope': False,
-        'hammer': False,
-        'sword': False
-    },
-    'person': {
-        'ms_scarlet': False,
-        'colonel_mustard': False,
-        'mr_green': False,
-        'prof_plum': False,
-        'mz_peacock': False,
-        'mrs_white': False
-    },
-    'room': {
-        'ballroom': False,
-        'bathroom': False,
-        'billiards_room': False,
-        'conservatory': False,
-        'greenroom': False,
-        'bedroom': False,
-        'garden': False,
-        'disco_room': False,
-        'game_room': False
-    }
-}
-        # self.chart_cards()        
-
-        print(self.possibilities)
-
+        self.set_list = []
+        self.possibilities = copy.deepcopy(evidence)
+        self.convert_all_values(self.possibilities)
+        print("My clues", self.possibilities)
+        # self.chart_cards()
+        
     def chart_cards(self):
         your_weapons = []
         your_persons = []
@@ -45,7 +20,15 @@ class Me(Player):
         for key, value in self.possibilities.items():
             self.chart_attribute(key, value)
 
-        
+    def convert_all_values(self, dictionary, new_value = False):
+        for key, value in dictionary.items():
+            if isinstance(value, dict):
+                print(key)
+                self.convert_all_values(value)
+            else:
+                dictionary.update({key:new_value})
+
+
     def chart_attribute(self, clue_type, obj):
         print(obj)
         print(f'''Enter the corresponding number for each {clue_type} you have.''')

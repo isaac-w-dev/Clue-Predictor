@@ -1,16 +1,13 @@
 from player import Player
 from me import Me
-
+from evidence import evidence
+import copy
 class Main():
     def __init__(self):
-        
+        self.clues = copy.deepcopy(evidence)
         self.me = Me()
         self.player = Player()
-
         self.initialize_game()
-        players = self.get_players()
-        self.mark_false(players[1:-1], ['poison', 'greenroom', 'ms_scarlet'])
-        self.mark_possible(players[-1], ['poison', 'greenroom', 'ms_scarlet'])
         self.main_menu()
 
     def get_player_number(self):
@@ -18,16 +15,19 @@ class Main():
         while True:
             try:
                 self.num_of_players = int(input('How many players are in the game including yourself?: '))
-                if self.num_of_players < 2: 
-                    print("Can't have less than 2 players.")
-                    raise Exception("Can't have less than 2 players.")
-                elif self.num_of_players > 10: 
-                    print("Can't have more than 10 players.")
-                    raise Exception("Can't have more than 10 players.")
+                if self.num_of_players < 2:
+                    ## Change to 3 when testing finished
+                    print("Can't have less than 3 players.")
+                    raise Exception("Can't have less than 3 players.")
+                elif self.num_of_players > 6: 
+                    print("Can't have more than 6 players.")
+                    raise Exception("Can't have more than 6 players.")
             except:
                 print('Invalid entry. Restarting prompt.')
                 continue
             else:
+                print(f'The number of players is {self.num_of_players} is this correct? Y/N')
+                if input().upper() != 'Y': continue
                 players.append(self.me)
                 for i in range(self.num_of_players - 1):
                     players.append(Player())
@@ -37,13 +37,13 @@ class Main():
     def initialize_game(self):
         self.get_player_number()
         for player in self.players[1:]:
-            player.set_variable_attributes()
+            player.set_variable_attributes(self.num_of_players)
     
     def get_players(self):
         
         while True:
             try:
-                print("Which players are involved?\n")
+                print("Which players are involved?\nStart with initiator first, then enter in the order asked")
                 for i, player in enumerate(self.players):
                     print(i, player.name)
                 
@@ -57,11 +57,9 @@ class Main():
                     except:
                         print("Invalid response, restarting prompt...")
                         valid_response = 1
-                if valid_response != 0:
-                    raise Exception('One or more elements is invalid')
+                if valid_response != 0: raise Exception('One or more elements is invalid')
                 
-                if len(players) > len(self.players):
-                    raise Exception('More entries than players')
+                if len(players) > len(self.players): raise Exception('More entries than players')
             except:
                 continue
             for num in int_players:
@@ -79,18 +77,75 @@ class Main():
         for clue in clue_set:
             self.player.change_nested_data(player.possibilities, clue, value)
 
+    # def check_for_deductions(self):
+    #     remove_from_set()
+    #     update_possibilities()
+    #     convert_values_true()
+    #     compare_values_to_num_cards()
+    #     update_general_card()
+
     def main_menu(self):
-        options = ['Question Player', 'Witness Question', 'Adjust Card']
+        options = ['Question', 'Adjust Card', 'Rush to the Finish']
         for i, option in enumerate(options):
             print(f'{i}     {option}')
-        
-        # for i , player in enumerate(self.players):
-        #     print(i, player.name)
+        # self.question()
+        # if entry == 0:
+        #     self.question()
+        # if entry == 1:
+        #     self.adjust_card()
+        # if entry == 2:
+        #     self.rush_finish()
+    
+    def get_int(self, lower, upper, max_length):
+        while True:
+            int_str = input().split()
+            int_array = []
+            repeat = False
+            if len(int_str) > max_length: continue
+            for value in int_str:
+                try:
+                    int_array.append(int(value))
+                    if self.check_bounds(lower, upper, int_array) == False: raise Exception("Bounding Error")
+                except:
+                    repeat = True
+            if repeat == False:
+                print(int_array)
+                if len(int_array) == 1:
+                    print(int_array[0])
+                    return int_array[0]
+                return int_array
+            else:
+                print("Error in selection, try again")
 
-    # def question(self, questioner, questioned):
-    #     for i , player in enumerate(self.players):
-    #         print(i, player.name)
-        
+    # def int_to_item(self, num, list):
 
+
+    def check_bounds(self, lower, upper, array):
+        print(lower, upper, array)
+        for item in array:
+            if item < lower or item > upper: return False
+        return True
+
+    # def question(self):
+    #     test = []
+    #     for type, selection in self.evidence.items():
+    #         print(f"Select the number corresponding to the {type} provided.")
+    #         print("Selection", selection)
+    #         i = 0
+    #         selection_array = selection.keys()
+    #         for i, key in enumerate(selection_array):
+    #             print("item", key)
+    #             print(f"{i}     {key}")
+    #             i += 1
+    #         order = self.get_int(-1, len(selection.keys()), 1)
+    #         print("order", order)
+    #         selection_list = list(selection_array)
+    #         print("selection array", selection_list)
+    #         test.append(selection_list[:])
+
+    #     print("Test", test)
+            
+            
+            
 
 program = Main()
