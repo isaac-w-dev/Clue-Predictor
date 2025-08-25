@@ -1,11 +1,12 @@
 from evidence import evidence
+from functions import Functions
+
 import copy
 class Player():
     def __init__(self):
         self.set_list = []
         self.possibilities = copy.deepcopy(evidence)
-        print("Player clues", self.possibilities)
-
+        self.functions = Functions()
     def get_num_cards(self, num_players):
         if 18 % num_players == 0:
             self.num_of_cards = int(18 / num_players)
@@ -38,27 +39,27 @@ class Player():
                 break
             print('Confirmation failed. Enter the corrected data.')
 
-    def change_nested_data(self, dictionary, variable, new_value, indent=''):
-        for key, value in dictionary.items():
-            if isinstance(value, dict):
-                print(key)
-                self.change_nested_data(value, variable, new_value, indent + '   ')
-            else:
-                if key == variable:
-                    value = new_value
-                    dictionary.update({key: value})
-            print(f'{indent}{key}: {value}')
+    # def change_nested_data(self, dictionary, variable, new_value, indent=''):
+    #     for key, value in dictionary.items():
+    #         if isinstance(value, dict):
+    #             print(key)
+    #             self.change_nested_data(value, variable, new_value, indent + '   ')
+    #         else:
+    #             if key == variable:
+    #                 value = new_value
+    #                 dictionary.update({key: value})
+    #         print(f'{indent}{key}: {value}')
 
-    def check_nested_data(self, dictionary, variable):
-        for key, value in dictionary.items():
-            if isinstance(value, dict):
-                print(key)
-                self.check_nested_data(value, variable)
-            else:
-                if key == variable:
-                    if value[:8] == 'Possible' or value == None:
-                        return True
-        return False
+    # def check_nested_data(self, dictionary, variable):
+    #     for key, value in dictionary.items():
+    #         if isinstance(value, dict):
+    #             print(key)
+    #             self.check_nested_data(value, variable)
+    #         else:
+    #             if key == variable:
+    #                 if value[:8] == 'Possible' or value == None:
+    #                     return True
+    #     return False
 
     def check_commonalities(self):
         freq_dict = {}

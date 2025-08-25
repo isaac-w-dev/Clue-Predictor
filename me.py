@@ -1,5 +1,6 @@
 from player import Player
 from evidence import evidence
+from functions import Functions
 import copy
 
 class Me(Player):
@@ -8,7 +9,7 @@ class Me(Player):
         self.set_list = []
         self.possibilities = copy.deepcopy(evidence)
         self.convert_all_values(self.possibilities)
-        print("My clues", self.possibilities)
+        self.functions = Functions()
         # self.chart_cards()
         
     def chart_cards(self):
@@ -23,7 +24,6 @@ class Me(Player):
     def convert_all_values(self, dictionary, new_value = False):
         for key, value in dictionary.items():
             if isinstance(value, dict):
-                print(key)
                 self.convert_all_values(value)
             else:
                 dictionary.update({key:new_value})

@@ -1,5 +1,6 @@
 from player import Player
 from me import Me
+from functions import Functions
 from evidence import evidence
 import copy
 class Main():
@@ -7,6 +8,8 @@ class Main():
         self.clues = copy.deepcopy(evidence)
         self.me = Me()
         self.player = Player()
+        self.functions = Functions()
+
         self.initialize_game()
         self.main_menu()
 
@@ -40,7 +43,6 @@ class Main():
             player.set_variable_attributes(self.num_of_players)
     
     def get_players(self):
-        
         while True:
             try:
                 print("Which players are involved?\nStart with initiator first, then enter in the order asked")
@@ -69,13 +71,11 @@ class Main():
     def mark_false(self, player_list, clue_set):
         for player in player_list:
             for clue in clue_set:
-                self.player.change_nested_data(player.possibilities, clue, False)
-            print(player.name)
-            print(player.possibilities)
+                self.functions.change_nested_data(player.possibilities, clue, False)
 
     def mark_positive(self, player, clue_set, value):
         for clue in clue_set:
-            self.player.change_nested_data(player.possibilities, clue, value)
+            self.functions.change_nested_data(player.possibilities, clue, value)
 
     # def check_for_deductions(self):
     #     remove_from_set()
@@ -88,64 +88,27 @@ class Main():
         options = ['Question', 'Adjust Card', 'Rush to the Finish']
         for i, option in enumerate(options):
             print(f'{i}     {option}')
-        # self.question()
+        self.question()
         # if entry == 0:
         #     self.question()
         # if entry == 1:
         #     self.adjust_card()
         # if entry == 2:
         #     self.rush_finish()
-    
-    def get_int(self, lower, upper, max_length):
-        while True:
-            int_str = input().split()
-            int_array = []
-            repeat = False
-            if len(int_str) > max_length: continue
-            for value in int_str:
-                try:
-                    int_array.append(int(value))
-                    if self.check_bounds(lower, upper, int_array) == False: raise Exception("Bounding Error")
-                except:
-                    repeat = True
-            if repeat == False:
-                print(int_array)
-                if len(int_array) == 1:
-                    print(int_array[0])
-                    return int_array[0]
-                return int_array
-            else:
-                print("Error in selection, try again")
 
-    # def int_to_item(self, num, list):
-
-
-    def check_bounds(self, lower, upper, array):
-        print(lower, upper, array)
-        for item in array:
-            if item < lower or item > upper: return False
-        return True
-
-    # def question(self):
-    #     test = []
-    #     for type, selection in self.evidence.items():
-    #         print(f"Select the number corresponding to the {type} provided.")
-    #         print("Selection", selection)
-    #         i = 0
-    #         selection_array = selection.keys()
-    #         for i, key in enumerate(selection_array):
-    #             print("item", key)
-    #             print(f"{i}     {key}")
-    #             i += 1
-    #         order = self.get_int(-1, len(selection.keys()), 1)
-    #         print("order", order)
-    #         selection_list = list(selection_array)
-    #         print("selection array", selection_list)
-    #         test.append(selection_list[:])
-
-    #     print("Test", test)
-            
-            
-            
+    def question(self):
+        test = []
+        for type, selection in self.clues.items():
+            print(f"Select the number corresponding to the {type} provided.")
+            i = 0
+            selection_array = selection.keys()
+            for i, key in enumerate(selection_array):
+                print(f"{i}     {key}")
+                i += 1
+            order = self.functions.get_int(-1, len(selection.keys()), 1)
+            print("order", order)
+            selection_list = list(selection_array)
+            print("selection array", selection_list)
+            test.append(selection_list[:])
 
 program = Main()
