@@ -3,7 +3,6 @@ from me import Me
 from functions import Functions
 from evidence import evidence
 import copy
-#Testing
 class Main():
     def __init__(self):
         self.clues = copy.deepcopy(evidence)
