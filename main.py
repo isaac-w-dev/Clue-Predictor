@@ -72,15 +72,6 @@ class Main():
                 returned_players.append(self.players[num])
             return returned_players
 
-    def mark_false(self, player_list, clue_set):
-        for player in player_list:
-            for clue in clue_set:
-                self.functions.change_nested_data(player.possibilities, clue, False)
-
-    def mark_positive(self, player, clue_set, value):
-        for clue in clue_set:
-            self.functions.change_nested_data(player.possibilities, clue, value)
-
     # def check_for_deductions(self):
     #     remove_from_set()
     #     update_possibilities()
@@ -121,7 +112,12 @@ class Main():
             print("Order:", order)
             print("Selection Array:", selection_list)
             print("Test: ", test)
-            # if len(players) > 2:
-            #     for player in players[1:-1]:
-            #         self.functions.chart_values(player.possibilities,  False)
+            if len(players) > 2:
+                for player in players[1:-1]:
+                    self.functions.change_nested_data(player.possibilities, test, False)
+            else:
+                players[-1].set_list.append(test)
+                print(players[-1].set_list)
+            # if players[0].name == 'Me':
+
 program = Main()

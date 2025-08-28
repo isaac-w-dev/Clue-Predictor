@@ -13,15 +13,3 @@ class Me(Player):
 
         self.functions.chart_cards(self.possibilities)
         print(self.possibilities)
-
-
-        # for key, value in self.possibilities.items():
-        #     for key, item in self.possibilities[value].items():
-        #     if item in converted_entry:
-        #         item = True
-
-
-        # print(self.possibilities)
-        # chart_cards(possibilities['weapon'], 'Weapons')
-        # chart_cards(possibilities['person'], 'Persons')
-        # chart_cards(possibilities['room'], 'Rooms')
