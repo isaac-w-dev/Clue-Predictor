@@ -2,6 +2,7 @@ from player import Player
 from me import Me
 from functions import Functions
 from evidence import evidence
+
 import copy
 class Main():
     def __init__(self):
@@ -37,11 +38,13 @@ class Main():
                 self.players = players
                 break
 
+
     def initialize_game(self):
         self.get_player_number()
         for player in self.players[1:]:
             player.set_variable_attributes(self.num_of_players)
-    
+
+
     def get_players(self):
         while True:
             try:
@@ -59,7 +62,7 @@ class Main():
                     except:
                         print("Invalid response, restarting prompt...")
                         valid_response = 1
-                if valid_response != 0: raise Exception('One or more elements is invalid')
+                if valid_response != 0: raise Exception('One or more elements are invalid')
                 
                 if len(players) > len(self.players): raise Exception('More entries than players')
             except:
@@ -68,15 +71,6 @@ class Main():
                 returned_players.append(self.players[num])
             return returned_players
 
-    def mark_false(self, player_list, clue_set):
-        for player in player_list:
-            for clue in clue_set:
-                self.functions.change_nested_data(player.possibilities, clue, False)
-
-    def mark_positive(self, player, clue_set, value):
-        for clue in clue_set:
-            self.functions.change_nested_data(player.possibilities, clue, value)
-
     # def check_for_deductions(self):
     #     remove_from_set()
     #     update_possibilities()
@@ -84,11 +78,12 @@ class Main():
     #     compare_values_to_num_cards()
     #     update_general_card()
 
+
     def main_menu(self):
         options = ['Question', 'Adjust Card', 'Rush to the Finish']
         for i, option in enumerate(options):
             print(f'{i}     {option}')
-        self.question()
+        self.question(self.clues, self.players)
         # if entry == 0:
         #     self.question()
         # if entry == 1:
@@ -96,19 +91,30 @@ class Main():
         # if entry == 2:
         #     self.rush_finish()
 
-    def question(self):
+
+    # def check_order(self, order):
+    #     if order[0] == 0:
+
+    def question(self, dictionary, players):
         test = []
-        for type, selection in self.clues.items():
+        for type, selection in dictionary.items():
             print(f"Select the number corresponding to the {type} provided.")
             i = 0
             selection_array = selection.keys()
             for i, key in enumerate(selection_array):
                 print(f"{i}     {key}")
                 i += 1
-            order = self.functions.get_int(-1, len(selection.keys()), 1)
-            print("order", order)
+            order = self.functions.validate_int(-1, len(selection.keys()), 1)
             selection_list = list(selection_array)
-            print("selection array", selection_list)
-            test.append(selection_list[:])
+            for item in order:
+                test.append(selection_list[item])
+            print("Order:", order)
+            print("Selection Array:", selection_list)
+            print("Test: ", test)
+        if len(players) > 2:
+            for player in players[1:-1]:
+                self.functions.change_nested_data(player.possibilities, test, False)
+        else:
+            players[-1].set_list.append(test)
 
 program = Main()
