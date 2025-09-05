@@ -83,7 +83,7 @@ class Main():
         options = ['Question', 'Adjust Card', 'Rush to the Finish']
         for i, option in enumerate(options):
             print(f'{i}     {option}')
-        self.question(self.clues, self.players)
+        self.question(self.clues)
         # if entry == 0:
         #     self.question()
         # if entry == 1:
@@ -95,25 +95,25 @@ class Main():
     # def check_order(self, order):
     #     if order[0] == 0:
 
-    def question(self, dictionary, players):
+    def question(self, dictionary):
+        players = self.get_players()
         test = []
         for type, selection in dictionary.items():
             print(f"Select the number corresponding to the {type} provided.")
-            i = 0
             selection_array = selection.keys()
             for i, key in enumerate(selection_array):
                 print(f"{i}     {key}")
-                i += 1
-            order = self.functions.validate_int(-1, len(selection.keys()), 1)
+            order = self.functions.get_int_array(-1, len(selection.keys()), 1)
             selection_list = list(selection_array)
             for item in order:
                 test.append(selection_list[item])
-            print("Order:", order)
             print("Selection Array:", selection_list)
             print("Test: ", test)
         if len(players) > 2:
             for player in players[1:-1]:
                 self.functions.change_nested_data(player.possibilities, test, False)
+                players[-1].set_list.append(test)
+
         else:
             players[-1].set_list.append(test)
 

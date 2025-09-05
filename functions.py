@@ -17,20 +17,22 @@ class Functions():
         if self.check_int(int) == False:
             print("Not an int")
             return False
-        if self.check_bounds(upper, int, lower) == False:
+        if self.check_bounds(lower, upper, int) == False:
             print("Bounding Error")
             return False
         return True
         
-    def get_int_array(self, upper, lower, max_length):
+    def get_int_array(self, lower, upper, max_length):
         while True:
             int_str = input().split()
             int_array = []
             for value in int_str:
-                if self.validate_int(upper, value, lower) == True:
+                if self.validate_int(upper, int(value), lower) == True:
                     int_array.append(int(value))
                 else:
                     print("Error in selection, enter your selections again.")
+            if len(int_array) == max_length:
+                return int_array
 
     def change_nested_data(self, dictionary, array, new_value, indent=''):
         for key, value in dictionary.items():
