@@ -12,4 +12,3 @@ class Me(Player):
         self.functions.convert_all_values(self.possibilities, False)
 
         self.functions.chart_cards(self.possibilities)
-        print(self.possibilities)

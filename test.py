@@ -23,7 +23,7 @@ def frequency_to_str(freq_dict):
         potential = f'Possible {freq}x'
         print(clue, potential)
         
-array = [['ms_scarlet', 'green_room', 'knife'],['ms_scarlet', 'conservatory', 'knife'], ['ms_scarlet', 'green_room', 'poison']]
+# array = [['ms_scarlet', 'green_room', 'knife'],['ms_scarlet', 'conservatory', 'knife'], ['ms_scarlet', 'green_room', 'poison']]
 
 append_set(array, ['mz_peacock', 'bathroom', 'wrench'])
 frequency_to_str(check_commonalities(array))
