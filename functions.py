@@ -1,8 +1,8 @@
 class Functions():
 
-    def check_bounds(self, lower, upper, item):
+    def check_int_bounds(self, lower, upper, int_checked):
         # Checks if int is within alotted bounds
-        if item < lower or item > upper: return False
+        if int_checked < lower or int_checked > upper: return False
         return True
 
     def check_length(self, max_length, array):
@@ -21,7 +21,7 @@ class Functions():
         if self.check_int(int) == False:
             print("Not an int")
             return False
-        if self.check_bounds(lower, upper, int) == False:
+        if self.check_int_bounds(lower, upper, int) == False:
             print("Bounding Error")
             return False
         return True
@@ -57,7 +57,7 @@ class Functions():
         for key, value in dictionary.items():
             if isinstance(value, dict):
                 # print(key)
-                self.check_nested_data(value, variable, value_checked)
+                return self.check_nested_data(value, variable, value_checked)
             else:
                 if key == variable:
                     if value == value_checked:
@@ -107,8 +107,7 @@ class Functions():
             if isinstance(value, dict):
                 self.convert_all_values(value, new_value)
             else:
-                value = new_value
-                dictionary.update({key: value})
+                dictionary.update({key: new_value})
 
     def return_true_values(self, player_dict):
         true_values = []
@@ -122,4 +121,5 @@ class Functions():
     def deductions_from_true(self, host_dict, player_array):
         true_values = self.return_true_values(host_dict)
         for player in player_array:
+            print(player.name)
             player.functions.change_nested_data(player.possibilities, true_values, False)

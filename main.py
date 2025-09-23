@@ -55,7 +55,7 @@ class Main():
 
         names = ["Mom", "Dad", "Ben", "Addie", "Leah"]
         num_cards = 4
-        player_sets = [['ms_scarlet', 'green_room', 'knife'],['ms_scarlet', 'conservatory', 'knife'], ['ms_scarlet', 'green_room', 'poison']]
+        player_sets = [['ms_scarlet', 'green_room', 'knife'],['ms_scarlet', 'conservatory', 'knife'], ['colonel_mustard', 'green_room', 'gun']]
 
         self.get_player_number()
         for i, player in enumerate(self.players[1:]):
@@ -105,6 +105,9 @@ class Main():
 
     def main_menu(self):
         self.functions.deductions_from_true(self.players[0].possibilities, self.players[1:])
+        for player in self.players:
+            player.filter_false()
+
             # player.filter_false()
         # while True:
         #     options = ['Question', 'Adjust Card', 'Rush to the Finish']

@@ -66,17 +66,13 @@ class Player():
     def filter_false(self):
         # Filters out any items in each set within the set list if the possibility value is False in the player's dictionary
         for set in self.set_list[:]:
-            print("Set before filtering:", set)
-
-
+            self.functions.display_dictionary(self, self.possibilities)
             for item in set[:]:
-                if self.functions.check_nested_data(self.possibilities, item, False) == True: set.remove(item)
-
-                
+                if self.functions.check_nested_data(self.possibilities, item, False) == True: set.remove(item)                
             print("Set after filtering: ", set)
-            print("Possibilities pre-changes: ", self.possibilities)
+            # print("Possibilities pre-changes: ", self.possibilities)
             if len(set) == 1:
                 self.functions.change_nested_data(self.possibilities, set, True)
-            print("Possibilities post-changes: ", self.possibilities)
+            self.functions.display_dictionary(self, self.possibilities)
 
         # self.functions.display_dictionary(self, self.possibilities)
